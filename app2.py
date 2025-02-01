@@ -110,30 +110,39 @@ def load_vectorstore():
     vectorstore_path = "new_local_vectorstore"
     embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 
-    if os.path.exists(vectorstore_path):
+    # ✅ Check if FAISS files exist
+    if os.path.exists(f"{vectorstore_path}/index.faiss") and os.path.exists(f"{vectorstore_path}/index.pkl"):
         vectorstore = FAISS.load_local(vectorstore_path, embeddings, allow_dangerous_deserialization=True)
-        print("Vectorstore loaded from local storage.")
+        print("✅ FAISS vectorstore loaded from local storage.")
     else:
-        print("Processing documents...")
+        print("⚠️ FAISS vectorstore missing! Rebuilding from documents...")
+
+        # Load documents from PDFs
         file_paths = [
-            "new_Data/ger_to_eng 02.pdf", 
-            "new_Data/ger_to_eng.pdf", 
-            "new_Data/use_Case.pdf", 
+            "new_Data/ger_to_eng 02.pdf",
+            "new_Data/ger_to_eng.pdf",
+            "new_Data/use_Case.pdf",
             "new_Data/website_data.pdf"
-            ]
-        
-        
+        ]
+
         docs = []
         for path in file_paths:
-            loader = PyPDFLoader(path)
-            docs.extend(loader.load())
+            if os.path.exists(path):  # Ensure file exists
+                loader = PyPDFLoader(path)
+                docs.extend(loader.load())
+            else:
+                print(f"⚠️ Warning: {path} not found!")
 
+        if not docs:
+            raise ValueError("⚠️ No documents found to create FAISS index.")
+
+        # Split text and create vectorstore
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
         chunks = text_splitter.split_documents(docs)
 
         vectorstore = FAISS.from_documents(chunks, embeddings)
         vectorstore.save_local(vectorstore_path)
-        print("Vectorstore created and saved locally.")
+        print("✅ FAISS vectorstore rebuilt successfully.")
 
     return vectorstore
 
