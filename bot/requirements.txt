@@ -12,4 +12,5 @@ pandas
 scikit-learn
 pyyaml
 protobuf
+python-dotenv
 google-generativeai
