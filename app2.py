@@ -119,10 +119,10 @@ def load_vectorstore():
 
         # Load documents from PDFs
         file_paths = [
-            "new_Data/ger_to_eng 02.pdf",
-            "new_Data/ger_to_eng.pdf",
-            "new_Data/use_Case.pdf",
-            "new_Data/website_data.pdf"
+            "bot/new_Data/ger_to_eng 02.pdf",
+            "bot/new_Data/ger_to_eng.pdf",
+            "bot/new_Data/use_Case.pdf",
+            "bot/new_Data/website_data.pdf"
         ]
 
         docs = []
