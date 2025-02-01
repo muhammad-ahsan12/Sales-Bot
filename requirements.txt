@@ -1,0 +1,15 @@
+streamlit
+langchain
+langchain-google-genai
+langchain-community
+langchain-groq
+faiss-cpu
+pypdf
+tiktoken
+numpy
+openai
+pandas
+scikit-learn
+pyyaml
+protobuf
+google-generativeai
