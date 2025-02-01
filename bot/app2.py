@@ -110,23 +110,28 @@ def load_vectorstore():
     vectorstore_path = "new_local_vectorstore"
     embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 
-    if os.path.exists(vectorstore_path):
+    if os.path.exists(vectorstore_path) and os.listdir(vectorstore_path):  # Ensure it's not empty
         vectorstore = FAISS.load_local(vectorstore_path, embeddings, allow_dangerous_deserialization=True)
         print("Vectorstore loaded from local storage.")
     else:
-        print("Processing documents...")
+        print("Processing documents... Creating a new vectorstore.")
         file_paths = [
             "new_Data/ger_to_eng 02.pdf", 
             "new_Data/ger_to_eng.pdf", 
             "new_Data/use_Case.pdf", 
             "new_Data/website_data.pdf"
-            ]
-        
+        ]
         
         docs = []
         for path in file_paths:
-            loader = PyPDFLoader(path)
-            docs.extend(loader.load())
+            if os.path.exists(path):  # Ensure file exists
+                loader = PyPDFLoader(path)
+                docs.extend(loader.load())
+            else:
+                print(f"Warning: {path} not found!")
+
+        if not docs:
+            raise ValueError("No documents found to create a vector store.")
 
         text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
         chunks = text_splitter.split_documents(docs)
