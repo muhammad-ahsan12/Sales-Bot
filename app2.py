@@ -60,8 +60,8 @@ def load_vectorstore():
     else:
         print("Processing books data...")
         book_file_paths = [
-            "data/01_book.pdf", 
-            "data/02_book.pdf"
+            "bot/data/01_book.pdf", 
+            "bot/data/02_book.pdf"
         ]
         
         docs_books = []
@@ -83,8 +83,8 @@ def load_vectorstore():
     else:
         print("Processing FAQ data...")
         faq_file_paths = [
-            "data/use_Case.pdf", 
-            "data/web_data.pdf"
+            "bot/data/use_Case.pdf", 
+            "bot/data/web_data.pdf"
         ]
         
         docs_faq = []
