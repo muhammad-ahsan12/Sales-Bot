@@ -54,8 +54,8 @@ user_query = st.chat_input("💬 Type your question:")
 @st.cache_resource
 def load_vectorstore():
     # Define paths for the two vector stores
-    vectorstore_path1 = "data_vectorstore"  # For books
-    vectorstore_path2 = "faq_vectorstore"   # For FAQs
+    vectorstore_path1 = "bot/data_vectorstore"  # For books
+    vectorstore_path2 = "bot/faq_vectorstore"   # For FAQs
     embeddings = GoogleGenerativeAIEmbeddings(model="models/embedding-001")
 
     # Load or create the vector store for books
@@ -65,8 +65,8 @@ def load_vectorstore():
     else:
         print("Processing books data...")
         book_file_paths = [
-            "data/01_book.pdf", 
-            "data/02_book.pdf"
+            "bot/data/01_book.pdf", 
+            "bot/data/02_book.pdf"
         ]
         
         docs_books = []
@@ -89,7 +89,7 @@ def load_vectorstore():
         print("Processing FAQ data...")
 
         faq_file_paths = [
-            "data/use_Case.pdf"
+            "botdata/use_Case.pdf"
         ]
         
         docs_faq = []
