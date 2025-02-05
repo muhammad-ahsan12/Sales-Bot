@@ -13,3 +13,4 @@ scikit-learn
 pyyaml
 protobuf
 google-generativeai
+bs4
